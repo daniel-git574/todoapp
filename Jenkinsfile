@@ -2,7 +2,7 @@ node {
     
 	
 
-    env.AWS_ECR_LOGIN=true
+    
     def newApp
     def registry = 'frenzy669/bamba-pro:yoyo'
     def registryCredential = 'dockerhub'
