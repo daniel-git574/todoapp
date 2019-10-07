@@ -24,7 +24,7 @@ node {
       newApp.push('latest')
   	}
 		stage('Deploy') {
-		sh "helm upgrade todo1 todo/. --recreate-pods --set image.tag=$tag"
+		sh "sudo helm upgrade todo1 todo/. --recreate-pods --set image.tag=$tag"
 	}
 	}
 }
