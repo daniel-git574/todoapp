@@ -4,6 +4,8 @@ node {
 		def imagename = "frenzy669/bamba-pro"
     def registryCredential = 'dockerhub'
 		def branch = env.BRANCH_NAME
+		def buildName
+		def tag = "$branch"+"_"+"$BUILD_NUMBER"
 	
 	stage('Git') {
 		git 'https://github.com/daniel-git574/todoapp.git'
@@ -16,10 +18,13 @@ node {
 	}
 	stage('Building image') {
       docker.withRegistry( registry, registryCredential ) {
-		  def buildName = imagename + ":$branch"+"_"+"$BUILD_NUMBER"
+		  buildName = imagename + ":$tag"
 			newApp = docker.build(buildName)
 			newApp.push()
       newApp.push('latest')
   	}
+		stage('Deploy') {
+		sh "helm upgrade todo1 todo/. --recreate-pods --set image.tag=$tag"
+	}
 	}
 }
